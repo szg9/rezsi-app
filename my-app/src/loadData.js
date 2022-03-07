@@ -1,11 +1,14 @@
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 // Készítsd el a saját config.js fájlodat a config.example.js fájl alapján
 import firebaseConfig from './firebase/config';
-import attractions from "./firebase/attractions";
+import db from './firebase/db';
+import rezsiAdatok from "./firebase/rezsiAdatok";
 
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+/*
+const db = firebase.firestore(); */
 
 firebase
   .auth()
@@ -20,10 +23,10 @@ firebase
 firebase.auth().onAuthStateChanged(async (user) => {
   const promises = [];
   if (user) {
-    attractions.forEach((attraction, index) => {
-      const writePromise = db.collection('attractions')
+    rezsiAdatok.forEach((rezsiAdat, index) => {
+      const writePromise = db.collection('haviAdatok')
         .doc(index + "")
-        .set(attraction)
+        .set(rezsiAdat)
         .then(() => {
           console.log('Document written');
         })

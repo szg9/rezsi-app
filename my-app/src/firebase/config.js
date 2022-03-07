@@ -1,10 +1,10 @@
 const config = {
-    apiKey: "AIzaSyDrOxXvlYay17p7mY7TKlZM0o_6Ymzb_UU",
-    authDomain: "gf-final-exam-23ac7.firebaseapp.com",
-    projectId: "gf-final-exam-23ac7",
-    storageBucket: "gf-final-exam-23ac7.appspot.com",
-    messagingSenderId: "797236896709",
-    appId: "1:797236896709:web:203c4242b64cd519dd21ac"
+    apiKey: "AIzaSyD4axo_ZwWrOrslseP2TdjgPCYkKUvIBug",
+    authDomain: "rezsi-42129.firebaseapp.com",
+    projectId: "rezsi-42129",
+    storageBucket: "rezsi-42129.appspot.com",
+    messagingSenderId: "872775718739",
+    appId: "1:872775718739:web:787e9d7b3f03cd0b5273a6"
 };
 
 export default config;
