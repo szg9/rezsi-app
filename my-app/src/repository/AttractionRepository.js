@@ -2,20 +2,20 @@ import db from '../firebase/db';
 
 export default class AttractionRepository {
 
-    static collection = db.collection('attractions');
+    static collection = db.collection('haviAdatok');
 
     static async getAll() {
         return AttractionRepository.collection
-            .orderBy('name', 'asc')
+            .orderBy('rogzites', 'asc')
             .get()
             .then((ref) => {
-                const attractions = [];
+                const rezsiAdatok = [];
 
                 ref.docs.forEach(doc => {
-                    attractions.push({ id: doc.id, ...doc.data() });
+                    rezsiAdatok.push({ id: doc.id, ...doc.data() });
                 });
 
-                return attractions;
+                return rezsiAdatok;
             });
     }
 
