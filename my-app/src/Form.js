@@ -3,22 +3,15 @@ import InputSet from './InputSet';
 import Alert from './Alert';
 import AttractionRepository from './repository/AttractionRepository';
 
-export default function Form({ type, attraction }) {
-    const id = (type === 'edit') ? attraction.id : null;
-
+export default function Form({ type, id }) {
     const [inputValues, setInputValues] = useState(
-        type === 'edit'
-            ? attraction
-            : {
-                name: '',
-                settlement: '',
-                address: '',
-                category: '',
-                price: 0,
-                note: '',
-                recommended: [],
-                gender: ''
-            }
+        {
+            rogzites: makeTodayDate(),
+            villany_ora: '',
+            gaz_ora: '',
+            viz_ora: '',
+            comment: ''
+        }
     )
 
     const [formWasValidated, setFormWasValidated] = useState(false);
@@ -29,62 +22,55 @@ export default function Form({ type, attraction }) {
     })
 
     const [errors, setErrors] = useState({
-        fullName: '',
-        settlement: '',
-        address: '',
-        category: '',
-        price: '',
-        note: '',
-        recommended: '',
-        gender: ''
+        rogzites: '',
+        villany_ora: '',
+        gaz_ora: '',
+        viz_ora: '',
+        comment: '',
     })
 
     const references = {
-        name: useRef(),
-        settlement: useRef(),
-        address: useRef(),
-        category: useRef(),
-        price: useRef(),
-        note: useRef(),
-        recommended: useRef(),
-        gender: useRef()
+        rogzites: useRef(),
+        villany_ora: useRef(),
+        gaz_ora: useRef(),
+        viz_ora: useRef(),
+        comment: useRef(),
     };
-
-    //console.log(references);
 
     const errorTypes = {
         required: 'Hiányzó érték',
         length1000: 'Nem lehet több, mint 1000 karakter',
         negativePrice: 'Nem lehet kisebb, mint 0',
-        mustChooseOne: 'Legalább egyet kötelező kiválasztani'
     };
 
     const validators = {
-        name: {
+        rogzites: {
             required: isNotEmpty,
         },
-        settlement: {
+        villany_ora: {
             required: isNotEmpty,
+            negativePrice: isNotNegative
         },
-        address: {
+        gaz_ora: {
             required: isNotEmpty,
+            negativePrice: isNotNegative
         },
-        category: {
+        viz_ora: {
             required: isNotEmpty,
+            negativePrice: isNotNegative
         },
-        price: {
-            required: isNotEmpty,
-            negativePrice: isNotNegative,
-        },
-        note: {
+        comment: {
             length1000: isLengthLessThan1000
         },
-        recommended: {
-            mustChooseOne: isOneOptionChoosen,
-        },
-        gender: {
-            required: isNotEmpty,
-        },
+    };
+
+    function makeTodayDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = ("0" + (now.getMonth() + 1)).slice(-2);
+        const day = ("0" + now.getDate()).slice(-2);
+        const todayDate = year + "-" + month + "-" + day;
+        return todayDate;
     }
 
     function isNotEmpty(value) {
@@ -97,10 +83,6 @@ export default function Form({ type, attraction }) {
 
     function isLengthLessThan1000(value) {
         return value.length <= 1000;
-    }
-
-    function isOneOptionChoosen(value) {
-        return value.length >= 1;
     }
 
     function handleInputChange(e) {
@@ -119,16 +101,6 @@ export default function Form({ type, attraction }) {
     function handleInputBlur(e) {
         const name = e.target.name;
         validateField(name);
-    }
-
-    function handleCheckboxChange(e) {
-        const checkbox = e.target;
-        setInputValues({
-            ...inputValues,
-            [checkbox.name]: checkbox.checked
-                ? [...inputValues.recommended, checkbox.value]
-                : inputValues.recommended.filter(value => value !== checkbox.value)
-        })
     }
 
     function validateField(fieldName) {
@@ -185,51 +157,37 @@ export default function Form({ type, attraction }) {
 
         if (isValid) {
             if (type === 'new') {
-                await AttractionRepository.insert(inputValues);
+                await AttractionRepository.insert({
+                    ...inputValues,
+                    rogzites: new Date(inputValues.rogzites)
+                });
                 setAlert({
                     message: 'Sikeres mentés',
                     type: 'success'
                 });
-                setInputValues({
-                    name: '',
-                    settlement: '',
-                    address: '',
-                    category: '',
-                    price: '',
-                    note: ''
-                })
             };
             if (type === 'edit') {
-                await AttractionRepository.update(id, inputValues)
+                await AttractionRepository.update(id, {
+                    ...inputValues,
+                    rogzites: new Date(inputValues.rogzites)
+                })
                 setAlert({
-                    message: 'Sikeres mentés',
+                    message: 'Sikeres módosítás',
                     type: 'success'
                 });
             }
             setFormWasValidated(false);
+            setInputValues({
+                rogzites: makeTodayDate(),
+                villany_ora: '',
+                gaz_ora: '',
+                viz_ora: '',
+                comment: ''
+            });
         } else {
             setFormWasValidated(true);
         }
     }
-
-    const categoryOptions = [
-        {
-            value: "",
-            text: "Válassz!"
-        },
-        {
-            value: "múzeum"
-        },
-        {
-            value: "étterem"
-        },
-        {
-            value: "építmény"
-        }
-    ];
-
-    const recommendedOptions = ['családok', 'párok', 'szinglik'];
-    const genderOptions = ['férfi', 'nő', 'egyéb'];
 
     return (
         <div className="container">
@@ -238,10 +196,10 @@ export default function Form({ type, attraction }) {
                 noValidate={true}
                 onSubmit={handleFormSubmit}>
                 <InputSet
-                    reference={references['name']}
-                    name="name"
-                    labelText="Megnevezés"
-                    type="text"
+                    reference={references['rogzites']}
+                    name="rogzites"
+                    labelText="Rögzítés időpontja"
+                    type="date"
                     errors={errors}
                     inputValues={inputValues}
                     handleInputBlur={handleInputBlur}
@@ -249,43 +207,9 @@ export default function Form({ type, attraction }) {
                     required={true}
                 />
                 <InputSet
-                    reference={references['settlement']}
-                    name="settlement"
-                    labelText="Település"
-                    type="text"
-                    errors={errors}
-                    inputValues={inputValues}
-                    handleInputBlur={handleInputBlur}
-                    handleInputChange={handleInputChange}
-                    required={true}
-                />
-                <InputSet
-                    reference={references['address']}
-                    name="address"
-                    labelText="Cím"
-                    type="text"
-                    errors={errors}
-                    inputValues={inputValues}
-                    handleInputBlur={handleInputBlur}
-                    handleInputChange={handleInputChange}
-                    required={true}
-                />
-                <InputSet
-                    reference={references['category']}
-                    name="category"
-                    labelText="Kategória"
-                    type="select"
-                    options={categoryOptions}
-                    errors={errors}
-                    inputValues={inputValues}
-                    handleInputBlur={handleInputBlur}
-                    handleInputChange={handleInputChange}
-                    required={true}
-                />
-                <InputSet
-                    reference={references['price']}
-                    name="price"
-                    labelText="Ár"
+                    reference={references['villany_ora']}
+                    name="villany_ora"
+                    labelText="Villanyóra állás"
                     type="number"
                     errors={errors}
                     inputValues={inputValues}
@@ -294,8 +218,30 @@ export default function Form({ type, attraction }) {
                     required={true}
                 />
                 <InputSet
-                    reference={references['note']}
-                    name="note"
+                    reference={references['gaz_ora']}
+                    name="gaz_ora"
+                    labelText="Gázóra állás"
+                    type="number"
+                    errors={errors}
+                    inputValues={inputValues}
+                    handleInputBlur={handleInputBlur}
+                    handleInputChange={handleInputChange}
+                    required={true}
+                />
+                <InputSet
+                    reference={references['viz_ora']}
+                    name="viz_ora"
+                    labelText="Vízóra állás"
+                    type="number"
+                    errors={errors}
+                    inputValues={inputValues}
+                    handleInputBlur={handleInputBlur}
+                    handleInputChange={handleInputChange}
+                    required={true}
+                />
+                <InputSet
+                    reference={references['comment']}
+                    name="comment"
                     labelText="Megjegyzés"
                     type="textarea"
                     errors={errors}
@@ -303,30 +249,6 @@ export default function Form({ type, attraction }) {
                     handleInputBlur={handleInputBlur}
                     handleInputChange={handleInputChange}
                     required={false}
-                />
-                <InputSet
-                    reference={references['recommended']}
-                    name="recommended"
-                    labelText="Ajánlott"
-                    type="checkbox"
-                    options={recommendedOptions}
-                    errors={errors}
-                    inputValues={inputValues}
-                    handleInputBlur={handleInputBlur}
-                    handleInputChange={handleCheckboxChange}
-                    required={false}
-                />
-                <InputSet
-                    reference={references['gender']}
-                    name="gender"
-                    labelText="Nem"
-                    type="radio"
-                    options={genderOptions}
-                    errors={errors}
-                    inputValues={inputValues}
-                    handleInputBlur={handleInputBlur}
-                    handleInputChange={handleInputChange}
-                    required={true}
                 />
                 <button type="submit" className="btn btn-primary mt-3">Mentés</button>
             </form>

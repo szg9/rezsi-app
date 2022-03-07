@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AttractionRepository from './repository/AttractionRepository';
 
 export default function Attractions() {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [rezsiAdatok, setRezsiAdatok] = useState([]);
   // const [settlements, setSettlements] = useState([]);
   // const [selectedSettlement, setSelectedSettlement] = useState();
@@ -37,8 +37,8 @@ export default function Attractions() {
     return (year + " " + month)
   }
 
-  function handleEditOnClick(id) {
-    history.push(`/attraction/edit/${id}`);
+  function handleEditOnClick(id, title) {
+    navigate(`/attraction/edit/${id}/${title}`);
   }
 
   async function handleDeleteOnClick(id) {
@@ -90,7 +90,7 @@ export default function Attractions() {
               <td>{rezsiAdat.viz_ora}</td>
               <td>{rezsiAdat.comment}</td>
               <td>
-                <Button name="Módosítás" type="primary" onClick={() => handleEditOnClick(rezsiAdat.id)} />
+                <Button name="Módosítás" type="primary" onClick={() => handleEditOnClick(rezsiAdat.id, convertDate(rezsiAdat.rogzites.seconds))} />
                 <Button name="Törlés" type="danger" onClick={() => handleDeleteOnClick(rezsiAdat.id)} />
               </td>
             </tr>

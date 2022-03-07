@@ -17,7 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/attraction/new" element={<NewForm />} />
-        <Route path="/attraction/edit/:id" element={<EditForm />} />
+        <Route path="/attraction/edit/:id/:title" element={<EditForm />} />
         <Route path="/" element={<Attractions />} />
       </Routes>
     </Router>
