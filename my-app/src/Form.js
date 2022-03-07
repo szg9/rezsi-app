@@ -158,8 +158,11 @@ export default function Form({ type, id }) {
         if (isValid) {
             if (type === 'new') {
                 await AttractionRepository.insert({
-                    ...inputValues,
-                    rogzites: new Date(inputValues.rogzites)
+                    rogzites: new Date(inputValues.rogzites),
+                    villany_ora: parseFloat(inputValues.villany_ora),
+                    gaz_ora: parseFloat(inputValues.gaz_ora),
+                    viz_ora: parseFloat(inputValues.viz_ora),
+                    comment: inputValues.comment
                 });
                 setAlert({
                     message: 'Sikeres mentés',
@@ -168,8 +171,11 @@ export default function Form({ type, id }) {
             };
             if (type === 'edit') {
                 await AttractionRepository.update(id, {
-                    ...inputValues,
-                    rogzites: new Date(inputValues.rogzites)
+                    rogzites: new Date(inputValues.rogzites),
+                    villany_ora: parseFloat(inputValues.villany_ora),
+                    gaz_ora: parseFloat(inputValues.gaz_ora),
+                    viz_ora: parseFloat(inputValues.viz_ora),
+                    comment: inputValues.comment
                 })
                 setAlert({
                     message: 'Sikeres módosítás',
@@ -185,6 +191,9 @@ export default function Form({ type, id }) {
                 comment: ''
             });
         } else {
+            console.log(parseInt(inputValues.villany_ora));
+            console.log(parseFloat(inputValues.villany_ora));
+            console.log(inputValues.villany_ora);
             setFormWasValidated(true);
         }
     }
