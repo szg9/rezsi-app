@@ -8,28 +8,15 @@ import AttractionRepository from './repository/AttractionRepository';
 export default function Attractions() {
   const navigate = useNavigate();
   const [rezsiAdatok, setRezsiAdatok] = useState([]);
-  // const [settlements, setSettlements] = useState([]);
-  // const [selectedSettlement, setSelectedSettlement] = useState();
 
   useEffect(() => {
     getAllRezsiAdatok();
-    // getAllSettlements();
   }, [])
 
   async function getAllRezsiAdatok() {
     const rezsiAdatok = await AttractionRepository.getAll()
     setRezsiAdatok(rezsiAdatok);
   }
-
-  // async function getAllSettlements() {
-  //   const settlements = await AttractionRepository.getDistinctSettlements();
-  //   setSettlements(settlements);
-  // }
-
-  // async function getAttractionsBySettlement(settlement) {
-  //   const attractions = await AttractionRepository.getAllBySettlement(settlement);
-  //   setAttractions(attractions);
-  // }
 
   function convertDate(timestamp) {
     const year = new Date(timestamp * 1000).toLocaleString("hu-HU", { year: "numeric" })
@@ -45,26 +32,6 @@ export default function Attractions() {
     await AttractionRepository.remove(id);
     getAllRezsiAdatok();
   }
-
-  // function handleFilterChange(event) {
-  //   const select = event.currentTarget;
-
-  //   setSelectedSettlement(select.value);
-
-  //   if (select.value === '') {
-  //     getAllAttractions();
-  //   }
-  //   else {
-  //     getAttractionsBySettlement(select.value);
-  //   }
-  // }
-
-  /* Filter kivéve az Add / után
-        <Filter
-        value={selectedSettlement}
-        handleFilterChange={handleFilterChange}
-        settlements={settlements} />
-  */
 
   return (
     <main className="container">
