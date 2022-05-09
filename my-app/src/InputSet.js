@@ -6,6 +6,7 @@ export default function InputFieldSet(
         handleInputBlur,
         type,
         name,
+        placeholder,
         labelText,
         required,
         reference,
@@ -73,6 +74,7 @@ export default function InputFieldSet(
             className="form-control"
             id={name}
             name={name}
+            placeholder={placeholder}
             value={inputValues[name]}
             onChange={handleInputChange}
             onBlur={handleInputBlur}

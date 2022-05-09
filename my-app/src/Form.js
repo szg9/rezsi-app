@@ -219,6 +219,7 @@ export default function Form({ type, id }) {
                     reference={references['villany_ora']}
                     name="villany_ora"
                     labelText="Villanyóra állás"
+                    placeholder="12345,1"
                     type="number"
                     errors={errors}
                     inputValues={inputValues}
@@ -230,6 +231,7 @@ export default function Form({ type, id }) {
                     reference={references['gaz_ora']}
                     name="gaz_ora"
                     labelText="Gázóra állás"
+                    placeholder="12345,123"
                     type="number"
                     errors={errors}
                     inputValues={inputValues}
