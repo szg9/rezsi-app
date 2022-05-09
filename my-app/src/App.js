@@ -5,6 +5,7 @@ import React from "react";
 import Attractions from "./Attractions";
 import EditForm from "./EditForm";
 import NewForm from './NewForm';
+import Graphs from './Graphs'
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/attraction/new" element={<NewForm />} />
         <Route path="/attraction/edit/:id/:title" element={<EditForm />} />
+        <Route path="/graphs" element={<Graphs />} />
         <Route path="/" element={<Attractions />} />
       </Routes>
     </Router>

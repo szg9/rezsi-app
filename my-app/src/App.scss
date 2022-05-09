@@ -5,3 +5,20 @@
   font-size: 12px;
   margin-top: -4px
 }
+
+.graphs>h1 {
+  text-align: center;
+  margin: 1em 0 .5em 0;
+}
+
+.graph-container {
+  padding: 0% 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.graph-container>* {
+  max-width: 45%;
+  margin: .5em;
+  max-height: 400px;
+}
