@@ -22,3 +22,15 @@
   margin: .5em;
   max-height: 400px;
 }
+
+button {
+  margin-left: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+button>svg {
+  vertical-align: text-top;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: .3em;
+}

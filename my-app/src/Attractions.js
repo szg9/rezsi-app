@@ -1,6 +1,7 @@
 import Add from './Add.js';
 // import Filter from './Filter.js';
 import Button from './Button.js';
+import GraphLink from "./GraphLink";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AttractionRepository from './repository/AttractionRepository';
@@ -37,6 +38,7 @@ export default function Attractions() {
     <main className="container">
       <h1>Adatok</h1>
       <Add />
+      <GraphLink />
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
@@ -57,7 +59,7 @@ export default function Attractions() {
               <td>{rezsiAdat.viz_ora}</td>
               <td>{rezsiAdat.comment}</td>
               <td>
-                <Button name="Módosítás" type="primary" onClick={() => handleEditOnClick(rezsiAdat.id, convertDate(rezsiAdat.rogzites.seconds))} />
+                <Button name="Módosítás" type="secondary" onClick={() => handleEditOnClick(rezsiAdat.id, convertDate(rezsiAdat.rogzites.seconds))} />
                 <Button name="Törlés" type="danger" onClick={() => handleDeleteOnClick(rezsiAdat.id)} />
               </td>
             </tr>
